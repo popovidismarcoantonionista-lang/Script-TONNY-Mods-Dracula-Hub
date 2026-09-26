@@ -1,15 +1,10 @@
 --[[
     TONNY MODZ — Script protegido (gate) + entrega via Dracula Hub
-    Hospedagem: https://raw.githubusercontent.com/popovidismarcoantonionista-lang/Script-TONNY-Mods-Dracula-Hub/main/script.lua
-
-    Fluxo:
-      1. Loader TONNY MODZ injeta KEY + DEVICE + VALIDATE_URL
-      2. Revalida contra /api/v1/keys/validate
-      3. Se aprovado, executa o loader Dracula Hub (com X-Challenge, retry, XOR)
+    Hospedagem: https://raw.githubusercontent.com/popovidismarcoantonionista-lang/Script-TONNY-Mods-Dracula-Hub/refs/heads/main/script.lua
 ]]
 
 --// ============================================================
---// AUTO-VALIDAÇÃO TONNY MODZ — NÃO REMOVER
+--// AUTO-VALIDAÇÃO TONNY MODZ
 --// ============================================================
 do
     local HttpService = game:GetService("HttpService")
@@ -40,10 +35,7 @@ do
                 ["Content-Type"] = "application/json",
                 ["User-Agent"]   = "TonnyModz/Script",
             },
-            Body = HttpService:JSONEncode({
-                key      = key,
-                deviceId = deviceId,
-            }),
+            Body = HttpService:JSONEncode({ key = key, deviceId = deviceId }),
         })
     end)
 
@@ -65,17 +57,14 @@ do
     g.TONNY_MODZ_EXPIRES = data.expiresAt
     g.TONNY_MODZ_DAYS    = data.daysRemaining
 end
---// ============================================================
---// FIM DA AUTO-VALIDAÇÃO — Dracula Hub loader abaixo
---// ============================================================
 
 --// ============================================================
---// DRACULA HUB LOADER — reutilizado como entrega do script
+--// DRACULA HUB LOADER — challenge atualizado
 --// ============================================================
 local H   = game:GetService("HttpService")
-local _ct = "Dtpp7J-eMnyR4oVklDy5RQEQdBt8qlt5zGZ5DmW6BP4"
-local _n  = "88e7becaea031700d1c8cafb29127291"
-local _ts = "1790453678"
+local _ct = "pqLCF5SdWn3u1_hHFHsechlJRTSiiYBJOXroGqVgJk8"
+local _n  = "636201b583aa7d52c4431cd6f389af60"
+local _ts = "1790464159"
 local _r
 local _req = request
     or (syn and syn.request)
@@ -134,9 +123,7 @@ if _r and _r.StatusCode == 200 then
         end
 
         local _code = table.concat(_dec)
-        _dec = nil
-        _e   = nil
-        _k   = nil
+        _dec = nil; _e = nil; _k = nil
 
         local fn, err = loadstring(_code)
         _code = nil
